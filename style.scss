@@ -12,11 +12,21 @@ body {
     justify-content: center;
     align-items: center;
 }
-.hidden {
-    width: 150px;
-    display: none;
+#myHeader {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-column: 1 / 11;
+    grid-row: 1 / 3;
+    background-color: white;
+    align-items: center;
+    grid-template-columns: repeat(10, 10%);
+    grid-template-rows: 100%;
 }
-
+#logo {
+    grid-column: 5 / 8;
+    height: 150px;
+}
 #InputContainer {
     width: 150px;
     display: flex;
@@ -30,13 +40,24 @@ body {
   
     #searchInput {
       height: 50px;
+      
     }
   
     .charButtons {
       width: 130px;
       height: 30px;
     }
+    #suggestions {
+        height: 1fr;
+    }
   }
+
+.hidden {
+    width: 150px;
+    display: none;
+}
+
+
   #SECTIONS {
     background-color: aqua;
     grid-column: 1 / 11;
