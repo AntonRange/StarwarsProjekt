@@ -5,7 +5,7 @@ const inputContainer = document.querySelector("#InputContainer") as HTMLDivEleme
 const suggestions = document.getElementById("suggestions") as HTMLDivElement;
 const favorites = document.getElementById("favourites") as HTMLDivElement;
 const selectedCharCards = document.querySelector("#selectedCharCards") as HTMLDivElement;
-
+const favoriteButton = document.querySelector("#favoritKnapp") as HTMLButtonElement;
 let charList: any = {};
 let pages: any = {};
 for (let i = 0; i <= 9; i++) {
@@ -92,13 +92,13 @@ function buttonMaker() {
     for (let i = 0; i < persons.length; i++) {
       let newCard = document.createElement("div") as HTMLDivElement;
       let newCardName = document.createElement("p") as HTMLParagraphElement;
-      newCardName.innerHTML = `Name: ${persons[i].name}`;
       let newCardBirthYear = document.createElement("p") as HTMLParagraphElement;
-      newCardBirthYear.innerHTML = `Birth Year: ${persons[i].birth_year}`;
       let newCardFilms = document.createElement("p") as HTMLParagraphElement;
+      newCardName.innerHTML = `Name: ${persons[i].name}`;
+      newCardBirthYear.innerHTML = `Birth Year: ${persons[i].birth_year}`;
       newCardFilms.innerHTML = `Starred in: `;
       for (let j = 0; j < persons[i].films.length; j++) {
-        newCardFilms.innerHTML += `${persons[i].films[j]}, `
+        newCardFilms.innerHTML += ` ${persons[i].films[j]}, `
       }
       newCard.appendChild(newCardName);
       newCard.appendChild(newCardBirthYear);
@@ -107,8 +107,21 @@ function buttonMaker() {
       selectedCharCards.appendChild(newCard)
     }
   }
+let pressedButtons:any = [];
+input.addEventListener("click", function() {
+    const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
+    for (let i = 0; i < pressedButtons.length; i++) {
+        let number = pressedButtons[i];
+        charButtons[number].classList.remove("hidden")
+    }
+  });
 // lyssnar på inputfielden på knapptryck. För varje knapp som trycks så jämför den inputvärdet med knapparnas textcontent. Tex om du skriver "lu" så kommer den hitta alla som har "lu" i knappens innertext.
   input.addEventListener("keyup", function(event) {
+    const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
+    for (let i = 0; i < pressedButtons.length; i++) {
+        let number = pressedButtons[i];
+        charButtons[number].classList.add("hidden")
+    }
     const buttons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
     if (!input.value) {
       for (let i = 0; i < buttons.length; i++) {
@@ -130,17 +143,51 @@ function buttonMaker() {
   function selectCharacters() {
     const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
     const charCards = document.querySelectorAll(".charCards") as NodeListOf<HTMLDivElement>;
-  
+    
     for (let i = 0; i < charButtons.length; i++) {
-      charButtons[i].onclick = function() {
-        // Hide all charCards
-        for (let j = 0; j < charCards.length; j++) {
-          charCards[j].style.display = "none";
-        }
-        // Show the corresponding charCard
-        charCards[i].style.display = "block";
-      };
-    }
+       
+        charButtons[i].onclick = function() {
+            favoriteButton.onclick = function() {
+            
+                let clonedButton = charButtons[i].cloneNode(true) as HTMLButtonElement;
+                clonedButton.setAttribute("index", String(i));
+        
+        clonedButton.classList.remove("hidden", "charButtons")
+        clonedButton.classList.add("Cloned")
+        favorites.appendChild(clonedButton);
+        console.log(clonedButton)
+        favButton()
+            }
+            input.value = "";
+            pressedButtons.push([i])
+          // Hide all charCards
+          for (let j = 0; j < charCards.length; j++) {
+            charCards[j].style.display = "none";
+          }
+          // Show the corresponding charCard
+          charCards[i].style.display = "block";
+      
+          // Hide all charButtons
+          for (let k = 0; k < charButtons.length; k++) {
+            charButtons[k].classList.add("hidden");
+          }
+        };
+      }
   }
 
+function favButton() {
+    const clonedButton = document.querySelectorAll(".Cloned") as NodeListOf<HTMLButtonElement>;
+    const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
+    for (let i = 0; i < clonedButton.length; i++) {
+        clonedButton[i].addEventListener("click", function() {
+
+            let indexAttribute = clonedButton[i].getAttribute("index");
+            let index = indexAttribute ? parseInt(indexAttribute, 10) : null;
+            console.log(index)
+            if (index !== null) {
+                charButtons[index].click();
+              }
+        });
+    }
+}
 
