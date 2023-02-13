@@ -8,35 +8,42 @@
     <title>StarWars</title>
 </head>
 <body>
+   
     <header id="myHeader">
-        
-        <img src="starwarslogo.png" id="logo">
+        <div id="InputContainer">
+            <input id="searchInput">
+            <section id="suggestions">
+            </section>
+            </div>
+        <!-- <img src="starwarslogo.png" id="logo"> -->
         
     </header>
     
-    <div id="InputContainer">
-        <input id="searchInput">
-        <section id="suggestions">
-        </section>
-        </div>
+    
     <div id="SECTIONS">
-    <section id="favourites">
-        <h2>Favourites</h2>
+    <section id="prevChar" class="sections">
+        <h2>Previous Character</h2>
         <div id="favoritesContainer">
             
         </div>
     </section>
-    <section id="selecterChar">
-        <button id="favoritKnapp">favorisera karaktären</button>
+
+    <section id="selecterChar" class="sections">
         <h2>Selected Character</h2>
-        <section id="selectedCharCards"></section>
+        <img id="FavImage" src="1828970.png">
+        <section id="selectedCharCards">
+
+        </section>
+        <button id="prevButton"><img src="arrow.png" class="btnImage"></button>
+        <button id="nextButton"><img src="arrow.png" class="btnImage"></button>
     </section>
-    <section id="homeWorld">
-        <h2>Homeworld</h2>
+    <section id="nextChar" class="sections">
+        <h2>Next Character</h2>
     </section>
+
 </div>
 
-    <p></p>
+    <div id="hideStuff" class="hidden"></div>
 </body>
-<script src="SW.js"></script>
+<script src="testingstuff.js"></script>
 </html>
