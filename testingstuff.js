@@ -8,6 +8,8 @@ const prevCharSection = document.getElementById("prevChar");
 const nextCharSection = document.getElementById("nextChar");
 const selectedCharCards = document.querySelector("#selectedCharCards");
 const favoriteButton = document.querySelector("#FavImage");
+const loadingPtag = document.getElementById("loadingPtag");
+const overlay = document.querySelector('.overlay');
 let pages = {};
 for (let i = 0; i <= 9; i++) {
     if (i === 0) {
@@ -20,6 +22,7 @@ for (let i = 0; i <= 9; i++) {
 let characters = [];
 async function apiFetch() {
     for (let i = 1; i <= 9; i++) {
+        loadingPtag.innerHTML = `Loading page ${i}`;
         console.log(pages[i]);
         let listOfCharacters = await fetch(pages[i]);
         console.log(`Loading page ${i}`);
@@ -42,9 +45,8 @@ async function apiFetch() {
             });
         }
     }
+    overlay.style.display = 'none';
     createPerson();
-    // selectCharacters()
-    // retard()
 }
 apiFetch();
 class Person {

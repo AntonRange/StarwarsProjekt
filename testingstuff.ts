@@ -7,7 +7,8 @@ const prevCharSection = document.getElementById("prevChar") as HTMLDivElement;
 const nextCharSection = document.getElementById("nextChar") as HTMLDivElement;
 const selectedCharCards = document.querySelector("#selectedCharCards") as HTMLDivElement;
 const favoriteButton = document.querySelector("#FavImage") as HTMLImageElement;
-
+const loadingPtag = document.getElementById("loadingPtag") as HTMLParagraphElement;
+const overlay = document.querySelector('.overlay') as HTMLDivElement;
 
 let pages: any = {};
 for (let i = 0; i <= 9; i++) {
@@ -25,12 +26,12 @@ interface Character {
   films: string[];
 }
 
+
+
 let characters: Character[] = [];
-
-
-
 async function apiFetch() {
     for (let i = 1; i <= 9; i++) {
+      loadingPtag.innerHTML = `Loading page ${i}`
       console.log(pages[i]);
       let listOfCharacters = await fetch(pages[i]);
       console.log(`Loading page ${i}`);
@@ -59,11 +60,12 @@ async function apiFetch() {
         });
       }
     }
+    overlay.style.display = 'none';
     createPerson()
-    // selectCharacters()
-    // retard()
+
   }
   apiFetch()
+
 
   class Person {
     name: string;
