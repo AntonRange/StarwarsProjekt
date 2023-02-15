@@ -8,6 +8,7 @@ const nextCharSection = document.getElementById("nextChar") as HTMLDivElement;
 const selectedCharCards = document.querySelector("#selectedCharCards") as HTMLDivElement;
 const favoriteButton = document.querySelector("#FavImage") as HTMLImageElement;
 const favoriteChars = document.querySelector("#favoriteChars") as HTMLDivElement;
+const favoriteCharButtonContainer = document.querySelector("#favoriteCharButtonContainer") as HTMLButtonElement;
 const loadingPtag = document.getElementById("loadingPtag") as HTMLParagraphElement;
 const overlay = document.querySelector('.overlay') as HTMLDivElement;
 
@@ -107,17 +108,21 @@ function buttonMaker() {
     let newCard = document.createElement("div");
     let newCardName = document.createElement("p");
     let newCardBirthYear = document.createElement("p");
+    let newCardHomeworld = document.createElement("p");
     let newCardFilms = document.createElement("ul");
     newCardName.innerHTML = `Name: ${persons[i].name}`;
     newCardBirthYear.innerHTML = `Birth Year: ${persons[i].birth_year}`;
     newCardFilms.innerHTML = `Featured in: `;
+    newCardHomeworld.innerHTML = `Homeworld: ${persons[i].homeWorld[1]}`;
     for (let c = 0; c < persons[i].films.length; c++){
       const liElement = document.createElement("li")
       liElement.innerHTML = persons[i].films[c];
       newCardFilms.appendChild(liElement);
     }
+    
     newCard.appendChild(newCardName);
     newCard.appendChild(newCardBirthYear);
+    newCard.appendChild(newCardHomeworld)
     newCard.appendChild(newCardFilms);
     newCard.classList.add("charCards", "hidden");
     selectedCharCards.appendChild(newCard);
@@ -131,6 +136,7 @@ input.addEventListener("click", function() {
     
     const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
     for (let i = 0; i < pressedButtons.length; i++) {
+      suggestions.classList.remove("hidden")
         let number = pressedButtons[i];
         charButtons[number].classList.remove("hidden")
         console.log(pressedButtons)
@@ -192,7 +198,7 @@ let CurrentIndex = 0;
     const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
     for (let i = 0; i < charButtons.length; i++) {
         charButtons[i].onclick = function() {
-          
+          suggestions.classList.add("hidden")
           favoriteButton.src = "../images/1828970.png";
           CurrentIndex = i;
           input.value = "";
@@ -206,19 +212,24 @@ let CurrentIndex = 0;
       }
   
       favoriteButton.onclick = function() {
-        favoriteButton.src = "../images/clickedStar.png";
+        
         // ett smidigt sätt att få knappen att inte fungera om man redan har tryckt på den innan! Denna lilla kodsnutten fungerar på så sätt att om clonedButtonIndex arrayen innehåller currentIndex så stoppar den onclick funktionen från att köra på!
         if (clonedButtonIndex.includes(CurrentIndex)) {
           return;
         }
+        if (clonedButtonIndex.length === 7) {
+          console.log(clonedButtonIndex)
+          return;
+        }
+        favoriteButton.src = "../images/clickedStar.png";
         let l = CurrentIndex
         starClicked.push(l)
-        //här skapar vi bara en knapp som har samma namn som de kortet som visades. Med hjälp av index som vi sedan använder för att hitta rätt namn i persons!
+        //här skapar vi bara en knapp som har samma namn som de kortet som visades med hjälp av index som vi sedan använder för att hitta rätt namn i persons!
         const clonedButton = document.createElement("button") as HTMLButtonElement;
         clonedButton.innerText = persons[CurrentIndex].name
         clonedButton.setAttribute("index", CurrentIndex.toString());
         clonedButton.classList.add("Cloned")
-        favoriteChars.appendChild(clonedButton)
+        favoriteCharButtonContainer.appendChild(clonedButton)
         
         clonedButtonIndex.push(CurrentIndex);
         clonedButtons()
@@ -273,7 +284,15 @@ let CurrentIndex = 0;
     }
     updateCards()
   }
-  
+  // const allCharButton = document.querySelector("#allCharButton") as HTMLButtonElement;
+
+  // allCharButton.onclick = function() {
+  //   const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
+  //   for (let i = 0; i < charButtons.length; i++){
+  //   let buttons = charButtons[i].innerText
+  //   console.log(charButtons)
+  // }
+  // }
 
 
 

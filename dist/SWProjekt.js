@@ -9,6 +9,7 @@ const nextCharSection = document.getElementById("nextChar");
 const selectedCharCards = document.querySelector("#selectedCharCards");
 const favoriteButton = document.querySelector("#FavImage");
 const favoriteChars = document.querySelector("#favoriteChars");
+const favoriteCharButtonContainer = document.querySelector("#favoriteCharButtonContainer");
 const loadingPtag = document.getElementById("loadingPtag");
 const overlay = document.querySelector('.overlay');
 let pages = {};
@@ -77,10 +78,12 @@ function SelectedcharCards() {
         let newCard = document.createElement("div");
         let newCardName = document.createElement("p");
         let newCardBirthYear = document.createElement("p");
+        let newCardHomeworld = document.createElement("p");
         let newCardFilms = document.createElement("ul");
         newCardName.innerHTML = `Name: ${persons[i].name}`;
         newCardBirthYear.innerHTML = `Birth Year: ${persons[i].birth_year}`;
         newCardFilms.innerHTML = `Featured in: `;
+        newCardHomeworld.innerHTML = `Homeworld: ${persons[i].homeWorld[1]}`;
         for (let c = 0; c < persons[i].films.length; c++) {
             const liElement = document.createElement("li");
             liElement.innerHTML = persons[i].films[c];
@@ -88,6 +91,7 @@ function SelectedcharCards() {
         }
         newCard.appendChild(newCardName);
         newCard.appendChild(newCardBirthYear);
+        newCard.appendChild(newCardHomeworld);
         newCard.appendChild(newCardFilms);
         newCard.classList.add("charCards", "hidden");
         selectedCharCards.appendChild(newCard);
@@ -97,6 +101,7 @@ let pressedButtons = [];
 input.addEventListener("click", function () {
     const charButtons = document.querySelectorAll(".charButtons");
     for (let i = 0; i < pressedButtons.length; i++) {
+        suggestions.classList.remove("hidden");
         let number = pressedButtons[i];
         charButtons[number].classList.remove("hidden");
         console.log(pressedButtons);
@@ -148,6 +153,7 @@ function changeChar() {
     const charButtons = document.querySelectorAll(".charButtons");
     for (let i = 0; i < charButtons.length; i++) {
         charButtons[i].onclick = function () {
+            suggestions.classList.add("hidden");
             favoriteButton.src = "../images/1828970.png";
             CurrentIndex = i;
             input.value = "";
@@ -159,17 +165,21 @@ function changeChar() {
         };
     }
     favoriteButton.onclick = function () {
-        favoriteButton.src = "../images/clickedStar.png";
         if (clonedButtonIndex.includes(CurrentIndex)) {
             return;
         }
+        if (clonedButtonIndex.length === 7) {
+            console.log(clonedButtonIndex);
+            return;
+        }
+        favoriteButton.src = "../images/clickedStar.png";
         let l = CurrentIndex;
         starClicked.push(l);
         const clonedButton = document.createElement("button");
         clonedButton.innerText = persons[CurrentIndex].name;
         clonedButton.setAttribute("index", CurrentIndex.toString());
         clonedButton.classList.add("Cloned");
-        favoriteChars.appendChild(clonedButton);
+        favoriteCharButtonContainer.appendChild(clonedButton);
         clonedButtonIndex.push(CurrentIndex);
         clonedButtons();
     };

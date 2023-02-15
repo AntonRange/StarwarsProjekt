@@ -40,13 +40,12 @@ body {
   overflow: scroll;
   position: relative;
   z-index: 1;
-  border: solid #000;
-  border-width: 2px;
   background-color: white;
 }
 #myHeader .charButtons {
   width: 160px;
   height: 30px;
+  background-color: rgba(255, 255, 255, 0);
   border: solid #000;
   border-width: 2px;
 }
@@ -62,7 +61,7 @@ body {
   display: flex;
   flex-flow: column wrap;
   align-items: center;
-  width: 33.3333333333%;
+  width: 33%;
   height: 100%;
   border: solid #000;
   border-width: 2px;
@@ -73,7 +72,7 @@ body {
   width: 100%;
 }
 #SECTIONS .sections p {
-  font-size: 3vh;
+  font-size: 17px;
 }
 #SECTIONS .cardHolder {
   margin-left: 0px;
@@ -119,7 +118,7 @@ body {
   position: relative;
   background-color: ghostwhite;
   width: 30%;
-  height: 50%;
+  height: 1fr;
   z-index: 1;
   left: 50%;
   top: 50%;
@@ -150,14 +149,27 @@ body {
   margin-left: 1.5%;
   display: flex;
   justify-content: center;
+  flex-flow: row wrap;
   grid-row: 8/10;
   grid-column: 1/-1;
   background-color: rgba(255, 255, 255, 0.687);
   width: 97%;
 }
+#favoriteChars .Cloned {
+  height: 50px;
+  width: 150px;
+  margin-left: 10px;
+}
 
 ul, li {
-  font-size: 2.5vh;
+  font-size: 17px;
+}
+
+#favoriteCharButtonContainer {
+  display: flex;
+  justify-content: space-evenly;
+  height: 70%;
+  width: 100%;
 }
 
 /*# sourceMappingURL=style.css.map */

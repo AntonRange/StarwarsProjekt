@@ -48,8 +48,6 @@ body {
           overflow:scroll;
           position: relative;
           z-index: 1;
-          border: solid #000;
-          border-width: 2px;
           background-color: white;
         }
       }
@@ -57,6 +55,7 @@ body {
       .charButtons {
         width: 160px;
         height: 30px;
+        background-color: rgba(255, 255, 255, 0);
         border: solid #000;
         border-width: 2px;
       }
@@ -73,7 +72,7 @@ body {
         display: flex;
         flex-flow: column wrap;
         align-items: center;
-        width: calc(100% / 3);
+        width: calc(99% / 3);
         height: 100%;
         border: solid #000;
         border-width: 2px;
@@ -85,7 +84,7 @@ body {
         }
         
         p {
-          font-size: calc(3vh);
+            font-size: 17px;
         }
       }
       
@@ -138,7 +137,7 @@ body {
     position: relative;
     background-color: ghostwhite;
     width: 30%;
-    height: 50%;
+    height: 1fr;
     z-index: 1;
     left: 50%;
     top: 50%;
@@ -165,15 +164,28 @@ body {
     width: 200px;
   }
 
-  #favoriteChars {
+ #favoriteChars {
     margin-left: 1.5%;
     display: flex;
     justify-content: center;
+    flex-flow: row wrap;
     grid-row: 8 / 10;
     grid-column: 1 / -1;
     background-color: $sectionBackGround;
     width: 97%;
-  }
+    .Cloned {
+        height: 50px;
+        width: 150px;
+        margin-left: 10px;
+    }
+}
   ul, li {
-    font-size: calc(2.5vh);
+    font-size: 17px;
   }
+
+#favoriteCharButtonContainer {
+    display: flex;
+    justify-content: space-evenly;
+    height: 70%;
+    width: 100%;
+}
