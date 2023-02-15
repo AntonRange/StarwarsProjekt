@@ -8,48 +8,51 @@
     <title>StarWars</title>
 </head>
 <body>
-    <div class="overlay">
+    <!-- <div class="overlay">
         <section id="popup">
           <img src="loading-gif.gif" id="loadingGif">
+          <p>Please wait until the pages are done loading!</p>
           <p id="loadingPtag"></p>
-          <button id="closeBtnPopup">Close</button>
         </section>
-      </div>
+      </div> -->
     <header id="myHeader">
         <div id="InputContainer">
             <input id="searchInput">
             <section id="suggestions">
             </section>
             </div>
-        <!-- <img src="starwarslogo.png" id="logo"> -->
-        
+        <img src="../images/starwarslogo.png" id="logo">
+        <button>All Characters</button>
     </header>
     
     
     <div id="SECTIONS">
-    <section id="prevChar" class="sections">
+    <section class="sections">
         <h2>Previous Character</h2>
-        <div id="favoritesContainer">
-            
-        </div>
+        <section id="prevChar" class="cardHolder">
+
+        </section>
     </section>
 
-    <section id="selecterChar" class="sections">
+    <section id="selecterChar" class="sections cardHolder">
         <h2>Selected Character</h2>
-        <img id="FavImage" src="1828970.png">
+        <img id="FavImage" src="../images/1828970.png">
         <section id="selectedCharCards">
 
         </section>
-        <button id="prevButton"><img src="arrow.png" class="btnImage"></button>
-        <button id="nextButton"><img src="arrow.png" class="btnImage"></button>
+        <button id="prevButton"><img src="../images/arrow.png" class="btnImage"></button>
+        <button id="nextButton"><img src="../images/arrow.png" class="btnImage"></button>
     </section>
-    <section id="nextChar" class="sections">
+    <section class="sections" class="cardHolder">
         <h2>Next Character</h2>
+        <div id="nextChar"></div>
     </section>
 
 </div>
 
-    <div id="hideStuff" class="hidden"></div>
+    <section id="favoriteChars">
+        <h2>Favorite Characters</h2>
+    </section>
 </body>
-<script src="testingstuff.js"></script>
+<script src="SWProjekt.js"></script>
 </html>

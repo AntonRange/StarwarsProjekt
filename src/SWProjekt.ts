@@ -7,16 +7,13 @@ const prevCharSection = document.getElementById("prevChar") as HTMLDivElement;
 const nextCharSection = document.getElementById("nextChar") as HTMLDivElement;
 const selectedCharCards = document.querySelector("#selectedCharCards") as HTMLDivElement;
 const favoriteButton = document.querySelector("#FavImage") as HTMLImageElement;
+const favoriteChars = document.querySelector("#favoriteChars") as HTMLDivElement;
 const loadingPtag = document.getElementById("loadingPtag") as HTMLParagraphElement;
 const overlay = document.querySelector('.overlay') as HTMLDivElement;
 
-let pages: any = {};
+let pages: {[pageNumber: number]: string} = {}
 for (let i = 0; i <= 9; i++) {
-  if (i === 0) {
-    pages[i] = allCharacters;
-  } else {
-    pages[i] = `${allCharacters}?page=${i}`;
-  }
+  pages[i] = `${allCharacters}?page=${i}`;
 }
 
 interface Character {
@@ -31,7 +28,7 @@ interface Character {
 let characters: Character[] = [];
 async function apiFetch() {
     for (let i = 1; i <= 9; i++) {
-      loadingPtag.innerHTML = `Loading page ${i}`
+      // loadingPtag.innerHTML = `Loading page ${i}`
       console.log(pages[i]);
       let listOfCharacters = await fetch(pages[i]);
       console.log(`Loading page ${i}`);
@@ -60,7 +57,7 @@ async function apiFetch() {
         });
       }
     }
-    overlay.style.display = 'none';
+    // overlay.style.display = 'none';
     createPerson()
 
   }
@@ -89,8 +86,10 @@ async function apiFetch() {
       persons.push(newPerson);
     }
     buttonMaker();
+    
     SelectedcharCards();
-    changeChar()
+    changeChar();
+    clonedButtons()
   }
 
 function buttonMaker() {
@@ -102,29 +101,32 @@ function buttonMaker() {
     }
   }
 
- let fuckingdog: any = []
-  function SelectedcharCards() {
-    for (let i = 0; i < persons.length; i++) {
-        console.log(persons[i]);
-      let newCard = document.createElement("div") as HTMLDivElement;
-      let newCardName = document.createElement("p") as HTMLParagraphElement;
-      let newCardBirthYear = document.createElement("p") as HTMLParagraphElement;
-      let newCardFilms = document.createElement("p") as HTMLParagraphElement;
-      newCardName.innerHTML = `Name: ${persons[i].name}`;
-      newCardBirthYear.innerHTML = `Birth Year: ${persons[i].birth_year}`;
-      newCardFilms.innerHTML = `Featured in: ${persons[i].films.join(", ")}`;
-      
-      newCard.appendChild(newCardName);
-      newCard.appendChild(newCardBirthYear);
-      newCard.appendChild(newCardFilms);
-      newCard.classList.add("charCards", "hidden")
-      selectedCharCards.appendChild(newCard)
-      
+
+ function SelectedcharCards() {
+  for (let i = 0; i < persons.length; i++) {
+    let newCard = document.createElement("div");
+    let newCardName = document.createElement("p");
+    let newCardBirthYear = document.createElement("p");
+    let newCardFilms = document.createElement("ul");
+    newCardName.innerHTML = `Name: ${persons[i].name}`;
+    newCardBirthYear.innerHTML = `Birth Year: ${persons[i].birth_year}`;
+    newCardFilms.innerHTML = `Featured in: `;
+    for (let c = 0; c < persons[i].films.length; c++){
+      const liElement = document.createElement("li")
+      liElement.innerHTML = persons[i].films[c];
+      newCardFilms.appendChild(liElement);
     }
+    newCard.appendChild(newCardName);
+    newCard.appendChild(newCardBirthYear);
+    newCard.appendChild(newCardFilms);
+    newCard.classList.add("charCards", "hidden");
+    selectedCharCards.appendChild(newCard);
   }
+}
 
 
-let pressedButtons:any = [];
+
+let pressedButtons: number[] = []
 input.addEventListener("click", function() {
     
     const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
@@ -136,7 +138,7 @@ input.addEventListener("click", function() {
     }
   });
 // lyssnar på inputfielden på knapptryck. För varje knapp som trycks så jämför den inputvärdet med knapparnas textcontent. Tex om du skriver "lu" så kommer den hitta alla som har "lu" i knappens innertext.
-  input.addEventListener("keyup", function(event) {
+  input.addEventListener("keyup", function() {
     const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
     for (let i = 0; i < pressedButtons.length; i++) {
         let number = pressedButtons[i];
@@ -164,39 +166,52 @@ function clonedButtons() {
     const clonedButton = document.querySelectorAll(".Cloned") as NodeListOf<HTMLButtonElement>;
     const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
     for (let i = 0; i < clonedButton.length; i++) {
-        clonedButton[i].addEventListener("click", function() {
+        clonedButton[i].onclick = function() {
 
             let indexAttribute = clonedButton[i].getAttribute("index");
             let index = indexAttribute ? parseInt(indexAttribute, 10) : null;
             console.log(index)
             if (index !== null) {
                 charButtons[index].click();
+                console.log(clonedButton)
               }
-        });
+        };
     }
 }
 
-
+const clonedButtonIndex: number[] = [];
 function changeChar() {
-let test = 0;
+let CurrentIndex = 0;
     const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
     for (let i = 0; i < charButtons.length; i++) {
         charButtons[i].onclick = function() {
-            
-          favoriteButton.src = "1828970.png";
-          test = i;
+          
+          favoriteButton.src = "../images/1828970.png";
+          CurrentIndex = i;
           input.value = "";
-          pressedButtons.push([i])
+          pressedButtons.push(i)
         
           updateCards();
           for (let k = 0; k < charButtons.length; k++) {
             charButtons[k].classList.add("hidden");
           }
-          
-          
         };
       }
       
+      favoriteButton.onclick = function() {
+        if (clonedButtonIndex.includes(CurrentIndex)) {
+          return;
+        }
+        const clonedButton = document.createElement("button") as HTMLButtonElement;
+        clonedButton.innerText = persons[CurrentIndex].name
+        clonedButton.setAttribute("index", CurrentIndex.toString());
+        clonedButton.classList.remove("charButtons", "hidden")
+        clonedButton.classList.add("Cloned")
+        favoriteChars.appendChild(clonedButton)
+        
+        clonedButtonIndex.push(CurrentIndex);
+        clonedButtons()
+      }
     const nextbtn = document.querySelector("#nextButton") as HTMLButtonElement;
     const prevbtn = document.querySelector("#prevButton") as HTMLButtonElement;
     const charCards = document.querySelectorAll(".charCards") as NodeListOf<HTMLDivElement>;
@@ -204,40 +219,40 @@ let test = 0;
     
     
     nextbtn.onclick = function() {
-        test++;
+        CurrentIndex++;
 
-      prevbtn.disabled = test === 0;
-      nextbtn.disabled = test === persons.length - 1;
+      prevbtn.disabled = CurrentIndex === 0;
+      nextbtn.disabled = CurrentIndex === persons.length - 1;
       updateCards();
     };
   
     prevbtn.onclick = function() {
-        test--;
-      prevbtn.disabled = test === 0;
-      nextbtn.disabled = test === persons.length - 3;
+        CurrentIndex--;
+      prevbtn.disabled = CurrentIndex === 0;
+      nextbtn.disabled = CurrentIndex === persons.length - 3;
       updateCards();
     };
   
     function updateCards() {
-        prevbtn.disabled = test === 0;
-        const currentChar = test;
-        let nextChar = test + 1;
-        let prevChar = test - 1;
+        prevbtn.disabled = CurrentIndex === 0;
+        const currentChar = CurrentIndex;
+        let nextChar = CurrentIndex + 1;
+        let prevChar = CurrentIndex - 1;
         for (let c = 0; c < persons.length; c++) {
 
             charCards[c].classList.add("hidden");
         }
         if (prevChar >= 0) {
             charCards[prevChar].classList.remove("hidden");
-            prevCharSection.appendChild(charCards[test - 1]);
+            prevCharSection.appendChild(charCards[CurrentIndex - 1]);
         }
         if (currentChar >= 0) {
             charCards[currentChar].classList.remove("hidden");
-            selectedCharCards.appendChild(charCards[test]);
+            selectedCharCards.appendChild(charCards[CurrentIndex]);
         }
         if (nextChar >= 0 && nextChar < persons.length) {
             charCards[nextChar].classList.remove("hidden");
-            nextCharSection.appendChild(charCards[test + 1]);
+            nextCharSection.appendChild(charCards[CurrentIndex + 1]);
         }
     }
     updateCards()
