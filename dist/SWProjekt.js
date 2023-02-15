@@ -18,6 +18,7 @@ for (let i = 0; i <= 9; i++) {
 let characters = [];
 async function apiFetch() {
     for (let i = 1; i <= 9; i++) {
+        loadingPtag.innerHTML = `Loading page ${i} / ${9}`;
         console.log(pages[i]);
         let listOfCharacters = await fetch(pages[i]);
         console.log(`Loading page ${i}`);
@@ -40,6 +41,7 @@ async function apiFetch() {
             });
         }
     }
+    overlay.style.display = 'none';
     createPerson();
 }
 apiFetch();
@@ -139,13 +141,14 @@ function clonedButtons() {
         };
     }
 }
+let starClicked = [];
 const clonedButtonIndex = [];
 function changeChar() {
     let CurrentIndex = 0;
     const charButtons = document.querySelectorAll(".charButtons");
     for (let i = 0; i < charButtons.length; i++) {
         charButtons[i].onclick = function () {
-            favoriteButton.src = "./images/1828970.png";
+            favoriteButton.src = "../images/1828970.png";
             CurrentIndex = i;
             input.value = "";
             pressedButtons.push(i);
@@ -156,13 +159,15 @@ function changeChar() {
         };
     }
     favoriteButton.onclick = function () {
+        favoriteButton.src = "../images/clickedStar.png";
         if (clonedButtonIndex.includes(CurrentIndex)) {
             return;
         }
+        let l = CurrentIndex;
+        starClicked.push(l);
         const clonedButton = document.createElement("button");
         clonedButton.innerText = persons[CurrentIndex].name;
         clonedButton.setAttribute("index", CurrentIndex.toString());
-        clonedButton.classList.remove("charButtons", "hidden");
         clonedButton.classList.add("Cloned");
         favoriteChars.appendChild(clonedButton);
         clonedButtonIndex.push(CurrentIndex);
@@ -184,6 +189,12 @@ function changeChar() {
         updateCards();
     };
     function updateCards() {
+        if (starClicked.includes(CurrentIndex)) {
+            favoriteButton.src = "../images/clickedStar.png";
+        }
+        else {
+            favoriteButton.src = "../images/1828970.png";
+        }
         prevbtn.disabled = CurrentIndex === 0;
         const currentChar = CurrentIndex;
         let nextChar = CurrentIndex + 1;

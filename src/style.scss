@@ -4,7 +4,7 @@
     align-items: center;
 }
 
-
+$sectionBackGround: rgba(255, 255, 255, 0.687);
 
 body {
     background-color: grey;
@@ -12,60 +12,64 @@ body {
     display: grid;
     grid-template-columns: repeat(10, 10%);
     grid-template-rows: repeat(10, 10%);
-}
-
-
-#myHeader {
-    display: flex;
-    margin-left: 1.5%;
-    width: 97%;
-    height: 100%;
-    grid-column: 1 / 11;
-    grid-row: 1 / 3;
-    align-items: center;
-    justify-content: space-between;
-   
-}
-#logo {
-    margin-right: 100px;
-    height: 100px;
-}
-#InputContainer {
-    margin-top: 50px;
-    height: 100px;
-}
-#searchInput {
-    width: 200px;
-    height: 30px;
-    border-radius: 10px;
-}
-#suggestions {
-    @include centerInsideFlexBox();
-    width: 200px;
-    display: flex;
-    flex-flow: row wrap;
-    max-height: 300px;
-    overflow:scroll;
-    position: relative;
-    z-index: 1;
-    border: solid #000;
-    border-width: 2px;
-    background-color: white;
-}
-.charButtons {
-    width: 160px;
-    height: 30px;
-    border: solid #000;
-    border-width: 2px;
-}
-#SECTIONS {
-    grid-row: 3 / 8;
-    grid-column: 1 / -1;
-    display: flex;
-    flex-flow: column wrap;
-    align-items: center;
     
-    .sections {
+}
+    #myHeader {
+      display: flex;
+      margin-left: 1.5%;
+      width: 97%;
+      height: 100%;
+      grid-column: 1 / 11;
+      grid-row: 1 / 3;
+      align-items: center;
+      justify-content: space-between;
+     
+      #logo {
+        margin-right: 100px;
+        height: 100px;
+      }
+      
+      #InputContainer {
+        margin-top: 50px;
+        height: 100px;
+        
+        #searchInput {
+          width: 200px;
+          height: 30px;
+          border-radius: 10px;
+        }
+        
+        #suggestions {
+          @include centerInsideFlexBox();
+          width: 200px;
+          display: flex;
+          flex-flow: row wrap;
+          max-height: 300px;
+          overflow:scroll;
+          position: relative;
+          z-index: 1;
+          border: solid #000;
+          border-width: 2px;
+          background-color: white;
+        }
+      }
+      
+      .charButtons {
+        width: 160px;
+        height: 30px;
+        border: solid #000;
+        border-width: 2px;
+      }
+    }
+    
+#SECTIONS {
+      grid-row: 3 / 8;
+      grid-column: 1 / -1;
+      display: flex;
+      flex-flow: column wrap;
+      align-items: center;
+      
+      .sections {
         display: flex;
         flex-flow: column wrap;
         align-items: center;
@@ -74,56 +78,65 @@ body {
         border: solid #000;
         border-width: 2px;
         position: relative;
-        background-color: rgba(255, 255, 255, 0.687);
-    .charCards {
-        width: 100%;
+        background-color: $sectionBackGround;
+        
+        .charCards {
+          width: 100%;
+        }
+        
+        p {
+          font-size: calc(3vh);
+        }
+      }
+      
+      .cardHolder {
+        margin-left: 0px;
+      }
+      
+      
     }
-    p {
-        font-size: calc(3vh);
+    
+
+    #FavImage {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      height: 50px;
     }
-}
-}
-.cardHolder {
-    margin-left: 0px;
-}
+    
+    #prevButton {
+      position: absolute;
+      bottom: 30px;
+      left: 50px;
+      
+      .btnImage {
+        height: 30px;
+        width: 50px;
+        transform: rotate(180deg);
+      }
+    }
+    
+    #nextButton {
+      position: absolute;
+      bottom: 30px;
+      right: 50px;
+      
+      .btnImage {
+        height: 30px;
+        width: 50px;
+      }
+    }
+
 .hidden {
     width: 150px;
     display: none;
-}
-
-
-#FavImage {
-    position: absolute;
-        top: 10px;
-        right: 20px;
-        height: 50px;
-}
-#prevButton {
-    position: absolute;
-        bottom: 30px;
-        left: 50px;
-        .btnImage {
-            height: 30px;
-            width: 50px;
-            transform: rotate(180deg);
-        }
-}
-#nextButton {
-    position: absolute;
-        bottom: 30px;
-        right: 50px;
-        .btnImage {
-            height: 30px;
-            width: 50px;
-        }
-}
-
+  }
 #popup {
     display: flex;
     grid-row: 4 / 6;
     grid-column: 5 / 7;
     position: relative;
-    background-color: rgb(255, 255, 255);
+    background-color: ghostwhite;
     width: 30%;
     height: 50%;
     z-index: 1;
@@ -142,11 +155,12 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(128, 128, 128, 0.512);
     z-index: 2;
   }
 
   #loadingGif {
+    margin-top: 40px;
     height: 200px;
     width: 200px;
   }
@@ -157,7 +171,7 @@ body {
     justify-content: center;
     grid-row: 8 / 10;
     grid-column: 1 / -1;
-    background-color: rgba(255, 255, 255, 0.687);
+    background-color: $sectionBackGround;
     width: 97%;
   }
   ul, li {

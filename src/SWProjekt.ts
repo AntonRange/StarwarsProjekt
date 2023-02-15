@@ -28,7 +28,7 @@ interface Character {
 let characters: Character[] = [];
 async function apiFetch() {
     for (let i = 1; i <= 9; i++) {
-      // loadingPtag.innerHTML = `Loading page ${i}`
+      loadingPtag.innerHTML = `Loading page ${i} / ${9}`
       console.log(pages[i]);
       let listOfCharacters = await fetch(pages[i]);
       console.log(`Loading page ${i}`);
@@ -57,7 +57,7 @@ async function apiFetch() {
         });
       }
     }
-    // overlay.style.display = 'none';
+    overlay.style.display = 'none';
     createPerson()
 
   }
@@ -162,6 +162,7 @@ input.addEventListener("click", function() {
     }
   });
 
+  // clonedButtons funktionen är bara så att den tar indexvärdet som vi sparat i attributet index på nyskapade knapparna. Dem sparades som string så fick använda mig av parseint för att få ut stringen så att de blev en siffra.
 function clonedButtons() {
     const clonedButton = document.querySelectorAll(".Cloned") as NodeListOf<HTMLButtonElement>;
     const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
@@ -171,6 +172,8 @@ function clonedButtons() {
             let indexAttribute = clonedButton[i].getAttribute("index");
             let index = indexAttribute ? parseInt(indexAttribute, 10) : null;
             console.log(index)
+            // den klagade på att index kanske va null så satte dit en ifsats för att få bort mitt error. Den gör bara en jämförelse. Om index inte är null så kommer den göra ett click på charButtons[index]. Den fungerar precis som om att man klickade på den riktiga charButtons 
+            
             if (index !== null) {
                 charButtons[index].click();
                 console.log(clonedButton)
@@ -179,7 +182,11 @@ function clonedButtons() {
     }
 }
 
+let starClicked: number[] = []
 const clonedButtonIndex: number[] = [];
+
+
+// Här är min stora funktion som gör allt! Ser lite stökig ut! Men denna functionen displayer rätt kort på rätt plats. Man kan hitta rätt kort oavsett om man har favoriserat den, sökt på den eller helt enkelt tryckt på pilen tills man hittat den! Anledningen att jag har allt i samma är för att den ville aldrig hitta rätt kort. Koderna fungerade separat, tex min selectCharacter funktion fungerade med changeCard men så fort jag började pilla på pilarna för att bläddra lite så försvann kort osv. Det hade med räknaren att göra.
 function changeChar() {
 let CurrentIndex = 0;
     const charButtons = document.querySelectorAll(".charButtons") as NodeListOf<HTMLButtonElement>;
@@ -197,15 +204,19 @@ let CurrentIndex = 0;
           }
         };
       }
-      
+  
       favoriteButton.onclick = function() {
+        favoriteButton.src = "../images/clickedStar.png";
+        // ett smidigt sätt att få knappen att inte fungera om man redan har tryckt på den innan! Denna lilla kodsnutten fungerar på så sätt att om clonedButtonIndex arrayen innehåller currentIndex så stoppar den onclick funktionen från att köra på!
         if (clonedButtonIndex.includes(CurrentIndex)) {
           return;
         }
+        let l = CurrentIndex
+        starClicked.push(l)
+        //här skapar vi bara en knapp som har samma namn som de kortet som visades. Med hjälp av index som vi sedan använder för att hitta rätt namn i persons!
         const clonedButton = document.createElement("button") as HTMLButtonElement;
         clonedButton.innerText = persons[CurrentIndex].name
         clonedButton.setAttribute("index", CurrentIndex.toString());
-        clonedButton.classList.remove("charButtons", "hidden")
         clonedButton.classList.add("Cloned")
         favoriteChars.appendChild(clonedButton)
         
@@ -215,12 +226,10 @@ let CurrentIndex = 0;
     const nextbtn = document.querySelector("#nextButton") as HTMLButtonElement;
     const prevbtn = document.querySelector("#prevButton") as HTMLButtonElement;
     const charCards = document.querySelectorAll(".charCards") as NodeListOf<HTMLDivElement>;
-   
-    
-    
     nextbtn.onclick = function() {
         CurrentIndex++;
 
+        // här är enkla "if satser" 
       prevbtn.disabled = CurrentIndex === 0;
       nextbtn.disabled = CurrentIndex === persons.length - 1;
       updateCards();
@@ -234,6 +243,12 @@ let CurrentIndex = 0;
     };
   
     function updateCards() {
+      // samma som ovanför, här byter vi bara bild så att sjärnar är ifylld med fin gul färg för att illustrera att den redan är favoriserad!
+      if (starClicked.includes(CurrentIndex)) {
+        favoriteButton.src = "../images/clickedStar.png";
+      } else {
+        favoriteButton.src = "../images/1828970.png";
+      }
         prevbtn.disabled = CurrentIndex === 0;
         const currentChar = CurrentIndex;
         let nextChar = CurrentIndex + 1;
@@ -242,6 +257,7 @@ let CurrentIndex = 0;
 
             charCards[c].classList.add("hidden");
         }
+        // några if satser för att hindra changeChard från att försöka appenda saker som inte går, tex om currentindex va på 0! För då hade prevChar försökt appenda charCards[-1] vilket hade spottat ut en massa fel!
         if (prevChar >= 0) {
             charCards[prevChar].classList.remove("hidden");
             prevCharSection.appendChild(charCards[CurrentIndex - 1]);

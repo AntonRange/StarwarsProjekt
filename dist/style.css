@@ -16,24 +16,20 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-
-#logo {
+#myHeader #logo {
   margin-right: 100px;
   height: 100px;
 }
-
-#InputContainer {
+#myHeader #InputContainer {
   margin-top: 50px;
   height: 100px;
 }
-
-#searchInput {
+#myHeader #InputContainer #searchInput {
   width: 200px;
   height: 30px;
   border-radius: 10px;
 }
-
-#suggestions {
+#myHeader #InputContainer #suggestions {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,8 +44,7 @@ body {
   border-width: 2px;
   background-color: white;
 }
-
-.charButtons {
+#myHeader .charButtons {
   width: 160px;
   height: 30px;
   border: solid #000;
@@ -80,14 +75,8 @@ body {
 #SECTIONS .sections p {
   font-size: 3vh;
 }
-
-.cardHolder {
+#SECTIONS .cardHolder {
   margin-left: 0px;
-}
-
-.hidden {
-  width: 150px;
-  display: none;
 }
 
 #FavImage {
@@ -118,12 +107,17 @@ body {
   width: 50px;
 }
 
+.hidden {
+  width: 150px;
+  display: none;
+}
+
 #popup {
   display: flex;
   grid-row: 4/6;
   grid-column: 5/7;
   position: relative;
-  background-color: rgb(255, 255, 255);
+  background-color: ghostwhite;
   width: 30%;
   height: 50%;
   z-index: 1;
@@ -142,11 +136,12 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(128, 128, 128, 0.512);
   z-index: 2;
 }
 
 #loadingGif {
+  margin-top: 40px;
   height: 200px;
   width: 200px;
 }
